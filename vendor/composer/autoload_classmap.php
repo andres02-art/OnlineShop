@@ -201,6 +201,7 @@ return array(
     'Database\\Seeders\\PromotionSeeder' => $baseDir . '/database/seeders/PromotionSeeder.php',
     'Database\\Seeders\\ShopSeeder' => $baseDir . '/database/seeders/ShopSeeder.php',
     'Database\\Seeders\\TypeSeeder' => $baseDir . '/database/seeders/TypeSeeder.php',
+    'Database\\Seeders\\UserSeeder' => $baseDir . '/database/seeders/UserSeeder.php',
     'DeepCopy\\DeepCopy' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/DeepCopy.php',
     'DeepCopy\\Exception\\CloneException' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/Exception/CloneException.php',
     'DeepCopy\\Exception\\PropertyException' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/Exception/PropertyException.php',
