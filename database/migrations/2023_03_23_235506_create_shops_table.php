@@ -24,8 +24,8 @@ return new class extends Migration
             $table->foreignId('users_owner_id')->index('users_owner');
             $table->foreign('users_owner_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('users_customer_id')->index('users_customer');
-            $table->foreign('users_owner_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('factures_id')->index('users_customer');
+            $table->foreign('users_customer_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('factures_id')->index('factures');
             $table->foreign('factures_id')->references('id')->on('factures')->onUpdate('cascade')->onDelete('cascade');
 
             // model untils
