@@ -1,0 +1,14 @@
+{
+    "exclude": [
+        "node_modules",
+        "app",
+        "database",
+        "vendor",
+        "storage",
+        "public",
+        "routes"
+    ],
+    "path": {
+        "@/*": ["resources/js"]
+    }
+}
