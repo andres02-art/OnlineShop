@@ -13,7 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('shops');
+        Schema::table('cars', function (Blueprint $table) {
+            $table->foreign('owner_user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+        });
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
 };

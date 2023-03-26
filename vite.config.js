@@ -4,6 +4,11 @@ import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
+	server: {
+		hmr: {
+			host: 'localhost',
+		},
+	},
 	plugins: [
 		laravel({
 			input: [
@@ -12,20 +17,13 @@ export default defineConfig({
 			],
 			refresh: true,
 		}),
-		vue({
-			template: {
-				transformAssetUrls: {
-					base: null,
-					includeAbsolute: false,
-				},
-			},
-		}),
+		vue(),
 	],
 	resolve: {
 		alias: {
 			vue: 'vue/dist/vue.esm-bundler.js',
-			'@': path(__dirname, 'resources/js'),
-			'~': path(__dirname, 'node_modules'),
+			'@': path.resolve(__dirname, 'resources/js'),
+			'~': path.resolve(__dirname, 'node_modules'),
 		},
 	},
 });

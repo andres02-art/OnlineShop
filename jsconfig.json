@@ -6,9 +6,21 @@
         "vendor",
         "storage",
         "public",
-        "routes"
+        "routes",
+        ".git",
+        "dist",
+        "config",
+        "test",
+        "brower_components",
+        "tmp"
     ],
+    "include": ["resources/js"],
+    "baseUrl": ".",
     "path": {
-        "@/*": ["resources/js"]
+        "@/*": ["resources/js/*"]
+    },
+    "compilerOptions": {
+        "target": "ES6",
+        "experimentalDecorators": true
     }
 }

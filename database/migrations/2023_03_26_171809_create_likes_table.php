@@ -13,14 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('likes', function (Blueprint $table) {
-            // drop foreigns
-            $table->dropForeign('likes_users_owner_id_foreign');
-            $table->dropForeign('likes_users_customer_id_foreign');
-            $table->dropForeign('likes_products_id_foreign');
-            $table->dropColumn('users_owner_id');
-            $table->dropColumn('users_customer_id');
-            $table->dropColumn('products_id');
+        Schema::create('likes', function (Blueprint $table) {
+            $table->id();
+            $table->boolean('favorite')->get( false );
+            $table->date('date_liked');
+            $table->integer('liked')->unsigned();
+            $table->boolean('pin_board')->get(false);
 
 
             // foreign keys
@@ -30,6 +28,11 @@ return new class extends Migration
             $table->foreign('customer_user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignID('product_id')->index('product');
             $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade')->onDelete('cascade');
+
+
+            // model untils
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -40,8 +43,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('likes', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('likes');
     }
 };

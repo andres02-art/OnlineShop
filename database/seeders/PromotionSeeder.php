@@ -17,18 +17,38 @@ class PromotionSeeder extends Seeder
     {
         DB::table('promotions')->insert([
             'name'=>'Primavera',
+            'season'=>0,
+            'active'=>false,
+            'date_begin'=>date('2023-02-14 00:00'),
+            'date_end'=>date('2023-04-14 00:00'),
         ]);
         DB::table('promotions')->insert([
-            'name'=>'Verano'
+            'name'=>'Verano',
+            'season'=>0,
+            'active'=>false,
+            'date_begin'=>date('2023-02-14 00:00'),
+            'date_end'=>date('2023-04-14 00:00'),
         ]);
         DB::table('promotions')->insert([
-            'name'=>'Otoño'
+            'name'=>'Otoño',
+            'season'=>0,
+            'active'=>false,
+            'date_begin'=>date('2023-02-14 00:00'),
+            'date_end'=>date('2023-04-14 00:00'),
         ]);
         DB::table('promotions')->insert([
-            'name'=>'Invierno'
+            'name'=>'Invierno',
+            'season'=>0,
+            'active'=>false,
+            'date_begin'=>date('2023-02-14 00:00'),
+            'date_end'=>date('2023-04-14 00:00'),
         ]);
         DB::table('promotions')->insert([
-            'name'=>'Black friday'
+            'name'=>'Black friday',
+            'season'=>0,
+            'active'=>false,
+            'date_begin'=>date('2023-02-14 00:00'),
+            'date_end'=>date('2023-04-14 00:00'),
         ]);
     }
 }
