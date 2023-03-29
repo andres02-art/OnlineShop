@@ -15,7 +15,12 @@ class PromotionController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(['promotions'=>Promotion::get()], 200);
+    }
+
+    public function getProductsByPromotion(Promotion $Promotion)
+    {
+        return response()->json(['productsByPromotion' => Promotion::with('Products')->find($Promotion)], 200);
     }
 
     /**

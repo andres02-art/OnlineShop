@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Product;
+use App\Models\Promotion;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,6 +17,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
         $this->call([
             UserSeeder::class,
             CategorySeeder::class,
@@ -22,6 +25,7 @@ class DatabaseSeeder extends Seeder
             CarSeeder::class,
             PromotionSeeder::class,
         ]);
-        // \App\Models\User::factory(10)->create();
+
+        Product::factory(100)->foreignID(Category::find(1))->create();
     }
 }

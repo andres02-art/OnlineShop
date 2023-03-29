@@ -19,4 +19,10 @@ class Promotion extends Model
         'date_end'
     ];
 
+
+    public function Products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
 }

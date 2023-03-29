@@ -1,5 +1,4 @@
 import 'bootstrap';
-import * as Bootstrap from 'bootstrap';
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -8,12 +7,15 @@ import * as Bootstrap from 'bootstrap';
  */
 
 import axios from 'axios';
-
 window.axios = axios;
-window.bootstrap = Bootstrap;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+const csrf = window.document.head.querySelector('meta[name="csrf-token"]').content
+
+if (csrf) {
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf
+}
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

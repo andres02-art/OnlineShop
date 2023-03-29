@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('factures', function (Blueprint $table) {
             // model parameters
             $table->id();
-            $table->float('sub_total')->unsigned();
-            $table->float('total_purchase')->unsigned();
+            $table->double('sub_total')->unsigned();
+            $table->double('total_purchase')->unsigned();
             $table->text('method');
             $table->text('token');
 

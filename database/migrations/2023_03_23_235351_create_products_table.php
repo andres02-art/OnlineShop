@@ -16,15 +16,15 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             // model parameters
             $table->id();
-            $table->float('precio')->unsigned();
+            $table->double('precio');
             $table->text('catalogo');
             $table->text('description');
             $table->text('img');
 
             // class parameters
-            $table->string('name', 16);
+            $table->string('name');
             $table->boolean('prom')->get(false);
-            $table->string('mark', 16);
+            $table->string('mark');
             $table->string('company')->nullable();
 
             //foreign keys

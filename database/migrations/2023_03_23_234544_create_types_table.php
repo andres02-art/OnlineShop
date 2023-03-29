@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('types', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 16)->unique();
+            $table->string('name')->unique();
             $table->boolean('require_car')->get(false);
             $table->softDeletes();
             $table->timestamps();

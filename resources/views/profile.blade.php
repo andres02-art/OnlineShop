@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <home-index></home-index>
+    @role('admin');
+@endrole
+@role('user');
+    @endrole
 @endsection

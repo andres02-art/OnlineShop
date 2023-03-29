@@ -17,38 +17,38 @@ class PromotionSeeder extends Seeder
     {
         DB::table('promotions')->insert([
             'name'=>'Primavera',
-            'season'=>0,
-            'active'=>false,
-            'date_begin'=>date('2023-02-14 00:00'),
+            'season'=>1,
+            'active'=>true,
+            'date_begin'=>date('2023-03-14 00:00'),
             'date_end'=>date('2023-04-14 00:00'),
         ]);
         DB::table('promotions')->insert([
             'name'=>'Verano',
-            'season'=>0,
+            'season'=>1,
             'active'=>false,
-            'date_begin'=>date('2023-02-14 00:00'),
-            'date_end'=>date('2023-04-14 00:00'),
+            'date_begin'=>date('2023-06-14 00:00'),
+            'date_end'=>date('2023-07-14 00:00'),
         ]);
         DB::table('promotions')->insert([
             'name'=>'Otoño',
-            'season'=>0,
+            'season'=>1,
             'active'=>false,
-            'date_begin'=>date('2023-02-14 00:00'),
-            'date_end'=>date('2023-04-14 00:00'),
+            'date_begin'=>date('2023-09-14 00:00'),
+            'date_end'=>date('2023-10-14 00:00'),
         ]);
         DB::table('promotions')->insert([
             'name'=>'Invierno',
-            'season'=>0,
+            'season'=>1,
             'active'=>false,
-            'date_begin'=>date('2023-02-14 00:00'),
-            'date_end'=>date('2023-04-14 00:00'),
+            'date_begin'=>date('2023-12-14 00:00'),
+            'date_end'=>date('2024-01-14 00:00'),
         ]);
         DB::table('promotions')->insert([
             'name'=>'Black friday',
-            'season'=>0,
+            'season'=>1,
             'active'=>false,
-            'date_begin'=>date('2023-02-14 00:00'),
-            'date_end'=>date('2023-04-14 00:00'),
+            'date_begin'=>date('2023-10-14 00:00'),
+            'date_end'=>date('2023-11-14 00:00'),
         ]);
     }
 }

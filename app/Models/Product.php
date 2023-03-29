@@ -22,4 +22,10 @@ class Product extends Model
             'company',
             'category_id',
             'promotion_id',
-        ]
+        ];
+
+    public function Promotion()
+    {
+        return $this->belongsTo(Promotion::class);
+    }
+}

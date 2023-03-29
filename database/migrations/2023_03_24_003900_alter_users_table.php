@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->softDeletes();
-            $table->string('credentials', 16)->unique();
+            $table->string('credentials')->unique();
             $table->date('born_date');
             $table->date('death_date')->nullable();
             $table->text('catalogo')->nullable();

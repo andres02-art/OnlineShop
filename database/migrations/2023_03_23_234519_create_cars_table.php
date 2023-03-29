@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
-            $table->float('sub_total');
-            $table->float('total_purchase');
+            $table->double('sub_total');
+            $table->double('total_purchase');
             $table->softDeletes();
             $table->timestamps();
         });
