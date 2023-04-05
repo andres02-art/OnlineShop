@@ -24,8 +24,24 @@ class Product extends Model
             'promotion_id',
         ];
 
+    protected $casts=[
+        'prom'=>'string'
+    ];
+
+
+
     public function Promotion()
     {
         return $this->belongsTo(Promotion::class);
     }
+
+    public function Category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function setPromAttribute($value){
+        $this->attributes['prom']=$value?0:1;
+    }
+
 }

@@ -29,7 +29,11 @@ class ProductFactory extends Factory
             'precio'=>fake()->randomFloat(),
             'catalogo'=>fake()->text(),
             'description'=>fake()->text(),
-            'img'=>fake()->text(),
+            'img'=>fake()->randomElement([
+                'lWO4k7DTNC5oJ7prMmTvLqoNRUK4Dj.jpg',
+                'n8HrBWSyuI8VivLRgA5ObEc10HMWJD.jpg',
+                null
+            ]),
             'name'=>fake()->name(),
             'prom'=>fake()->boolean(),
             'mark'=>fake()->name(),

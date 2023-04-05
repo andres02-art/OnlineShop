@@ -1,0 +1,18 @@
+.promotion-carousel{
+    height: 600px;
+}
+
+.product-card{
+    min-width: 240px;
+    max-width: 240px;
+    max-height: 400px;
+}
+
+.product-row{
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+    &::-webkit-scrollbar{
+        width: 0px;
+        height: 0px;
+    }
+}

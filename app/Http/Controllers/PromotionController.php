@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Promotion;
 use App\Http\Requests\StorePromotionRequest;
 use App\Http\Requests\UpdatePromotionRequest;
+use Illuminate\Support\Facades\Storage;
+use Yajra\DataTables\Facades\DataTables;
 
 class PromotionController extends Controller
 {
@@ -18,11 +20,24 @@ class PromotionController extends Controller
         return response()->json(['promotions'=>Promotion::get()], 200);
     }
 
-    public function getProductsByPromotion(Promotion $Promotion)
+    public function indexProductsByPromotion(Promotion $Promotion)
     {
         return response()->json(['productsByPromotion' => Promotion::with('Products')->find($Promotion)], 200);
     }
 
+    public function indexDatatable()
+    {
+        $promotions = Promotion::all();
+        return DataTables::of($promotions)
+            ->addColumn('actions', function($row){
+                $fedit = Storage::get('/buttons/editButton.html');
+                $fdelete = Storage::get('/buttons/deleteButton.html');
+                $fsee = Storage::get('/buttons/seeButton.html');
+                return "<div rowitem='{$row->id}'>".$fedit.$fdelete.$fsee.'</div>';
+            })
+            ->rawColumns(['actions'])
+            ->make();
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -32,7 +47,6 @@ class PromotionController extends Controller
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -41,7 +55,9 @@ class PromotionController extends Controller
      */
     public function store(StorePromotionRequest $request)
     {
-        //
+        $promotion = new Promotion($request->all());
+        $promotion->save();
+        return response()->json(['succes'=>$request]);
     }
 
     /**
@@ -55,6 +71,25 @@ class PromotionController extends Controller
         //
     }
 
+    public function showPromotions($redirect)
+    {
+        $comuns=[
+            ['data'=>'id', 'title'=>'ID'],
+            ['data'=>'name', 'title'=>'Nombre'],
+            ['data'=>'season', 'title'=>'Temporada'],
+            ['data'=>'active', 'title'=>'Activa'],
+            ['data'=>'actions', 'title'=>'Acciones'],
+        ];
+        if ($redirect==='true') {
+            return response()->json([], 301, ['location'=>'/Profile/Owner/Root/root']);
+        }else{
+            return response()->json([
+                'url'=>'/Promotions/Root/promotionsAdminDatatable',
+                'columns'=>$comuns,
+                'title'=>'Promociones'
+            ], 200, ['form'=>'promotions', 'profiledatatable'=>true]);
+        }
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -73,9 +108,10 @@ class PromotionController extends Controller
      * @param  \App\Models\Promotion  $promotion
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePromotionRequest $request, Promotion $promotion)
+    public function update(Promotion $Promotion, UpdatePromotionRequest $request, )
     {
-        //
+        $Promotion->update($request->all());
+        return response()->json(['succes'=>$Promotion]);
     }
 
     /**
@@ -86,6 +122,7 @@ class PromotionController extends Controller
      */
     public function destroy(Promotion $promotion)
     {
-        //
+        $promotion->delete();
+        return response()->json([]);
     }
 }

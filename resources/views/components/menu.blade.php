@@ -17,7 +17,7 @@
         <form class="d-flex flex-row gap-2" id="search-form" action="{{ route('search') }}" method="get">
             @csrf
             <input class="form-control" type="text" placeholder="search" name="search">
-            <button class="btn" type="submit">buscar</button>
+            <button class="btn" type="submit">Buscar</button>
         </form>
 
         <!-- Right Side Of Navbar -->
@@ -38,6 +38,10 @@
             @else
 
                 <!--Option-menu-->
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#profileSideBar" aria-controls="offcanvasScrolling">Opciones</a>
+                </li>
+
                 <x-options></x-options>
 
             @endguest

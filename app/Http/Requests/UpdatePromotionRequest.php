@@ -13,7 +13,7 @@ class UpdatePromotionRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,20 @@ class UpdatePromotionRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name'=>'string|unique:promotions,name',
+            'season'=>'numeric',
+            'active'=>'string',
+        ];
+    }
+
+
+    public function messages()
+    {
+        return [
+            'name.string'=>'debe ser un nombre valido',
+            'name.unique'=>'el nombre ya fue registrado',
+            'season.numeric'=>'debe ser un numero',
+            'active.boolean'=>'debe ser booleano'
         ];
     }
 }

@@ -1,8 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    @role('admin');
-@endrole
-@role('user');
-    @endrole
+    <profile-index :auth-user={{ Auth::user()->id??'false' }}></profile-index>
 @endsection

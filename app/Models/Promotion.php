@@ -19,10 +19,17 @@ class Promotion extends Model
         'date_end'
     ];
 
+    protected $casts=[
+        'active'=>'string'
+    ];
 
     public function Products()
     {
         return $this->hasMany(Product::class);
     }
 
+    public function setActiveAttribute($value)
+    {
+        $this->attributes['active']=$value? 1 : 0;
+    }
 }

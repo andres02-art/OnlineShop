@@ -19,7 +19,7 @@ return new class extends Migration
             $table->double('precio');
             $table->text('catalogo');
             $table->text('description');
-            $table->text('img');
+            $table->text('img')->nullable();
 
             // class parameters
             $table->string('name');
