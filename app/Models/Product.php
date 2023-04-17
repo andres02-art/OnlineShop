@@ -17,6 +17,7 @@ class Product extends Model
             'description',
             'img',
             'name',
+            'stock',
             'prom',
             'mark',
             'company',
@@ -38,6 +39,10 @@ class Product extends Model
     public function Category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function Facture(){
+        return $this->hasOne(Facture::class);
     }
 
     public function setPromAttribute($value){

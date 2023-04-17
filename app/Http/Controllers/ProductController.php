@@ -17,20 +17,19 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($offset=0, $limit=15)
     {
-
+        return response()->json(Product::get()->skip($offset)->take($limit));
     }
 
     public function indexDatatable()
     {
-        $products = Product::all();
+        $products = Product::get()->where('stock', '>=', 0);
         return DataTables::of($products)
             ->addColumn('actions', function($row){
                 $fedit = Storage::get('/buttons/editButton.html');
                 $fdelete = Storage::get('/buttons/deleteButton.html');
-                $fsee = Storage::get('/buttons/seeButton.html');
-                return "<div rowitem='{$row->id}'>".$fedit.$fdelete.$fsee.'</div>';
+                return "<div rowitem='{$row->id}'>".$fedit.$fdelete.'</div>';
             })
             ->rawColumns(['actions'])
             ->make();
@@ -101,6 +100,7 @@ class ProductController extends Controller
             ['data'=>'category_id', 'title'=>'Categoria'],
             ['data'=>'promotion_id', 'title'=>'Promocion'],
             ['data'=>'name', 'title'=>'Nombre'],
+            ['data'=>'stock', 'title'=>'Cantidad'],
             ['data'=>'precio', 'title'=>'Costo'],
             ['data'=>'mark', 'title'=>'Marca'],
             ['data'=>'actions', 'title'=>'Acciones'],

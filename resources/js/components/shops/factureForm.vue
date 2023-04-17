@@ -1,72 +1,51 @@
 <template>
-    <div class="row mb-3">
-        <label for="name" class="col-md-4 col-form-label text-md-end">Nombre:</label>
-        <div class="col-md-6">
-            <input id="name" type="text" class="form-control" name="name" required v-model="userForm.name">
+    <div @change="this.updateForm()">
+
+        <!-- vista previa usuario-->
+        <div v-if="this.buyer" class="card mb-3 row" >
+            <div class="row g-0">
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Usuario</h5>
+                        <p class="card-text">Nombre: {{ this.buyer.name }}</p>
+                        <p class="card-text">Correo: {{ this.buyer.email }}</p>
+                        <p class="card-text">Documento: {{ this.buyer.credentials }}</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div v-if="this.formResponse.reject" class="col-mb3 d-flex justify-content-center text-danger">
-            <p v-for="(e, i) in this.formResponse.data.errors.name" :key="i">{{ e }}</p>
+        <!-- vista previa producto-->
+        <div class="card mb-3 row" >
+            <div class="row g-0">
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Producto</h5>
+                        <p class="card-text">Nombre: {{ this.product.name }}</p>
+                        <p class="card-text">Precio: {{ this.product.precio }}</p>
+                        <p class="card-text">Marca: {{ this.product.mark }}</p>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="row mb-3">
-        <label for="second_name" class="col-md-4 col-form-label text-md-end">Segundo nombre:</label>
-        <div class="col-md-6">
-            <input id="second_name" type="this.user.type" class="form-control" name="second_name" required v-model="userForm.second_name">
+
+        <!-- formulario escencial -->
+        <div class="row mb-3">
+            <label for="method" class="col-md-4 col-form-label text-md-end">Metodo de pago:</label>
+            <div class="col-md-6">
+                <vue-select :options="this.payMethods" v-model="this.$parent.factureForm.method"></vue-select>
+            </div>
+            <div v-if="this.formResponse.reject" class="col-mb3 d-flex justify-content-center text-danger">
+                <p v-for="(e, i) in this.formResponse.data.errors.method" :key="i">{{ e }}</p>
+            </div>
         </div>
-        <div v-if="this.formResponse.reject" class="col-mb3 d-flex justify-content-center text-danger">
-            <p v-for="(e, i) in this.formResponse.data.errors.second_name" :key="i">{{ e }}</p>
-        </div>
-    </div>
-    <div class="row mb-3">
-        <label for="last_name" class="col-md-4 col-form-label text-md-end">Apellidos: </label>
-        <div class="col-md-6">
-            <input id="last_name" type="text" class="form-control" name="last_name" required v-model="userForm.last_name">
-        </div>
-        <div v-if="this.formResponse.reject" class="col-mb3 d-flex justify-content-center text-danger">
-            <p v-for="(e, i) in this.formResponse.data.errors.last_name" :key="i">{{ e }}</p>
-        </div>
-    </div>
-    <div class="row mb-3">
-        <label for="credentials" class="col-md-4 col-form-label text-md-end">Documento de identidad:</label>
-        <div class="col-md-6">
-            <input id="credentials" type="number" class="form-control" name="credentials" required v-model="userForm.credentials">
-        </div>
-        <div v-if="this.formResponse.reject" class="col-mb3 d-flex justify-content-center text-danger">
-            <p v-for="(e, i) in this.formResponse.data.errors.credentials" :key="i">{{ e }}</p>
-        </div>
-    </div>
-    <div class="row mb-3">
-        <label for="born_date" class="col-md-4 col-form-label text-md-end">Fecha de nacimiento:</label>
-        <div class="col-md-6">
-            <input id="born_date" type="date" class="form-control" name="born_date" required v-model="userForm.born_date">
-        </div>
-        <div v-if="this.formResponse.reject" class="col-mb3 d-flex justify-content-center text-danger">
-            <p v-for="(e, i) in this.formResponse.data.errors.born_date" :key="i">{{ e }}</p>
-        </div>
-    </div>
-    <div class="row mb-3">
-        <label for="email" class="col-md-4 col-form-label text-md-end">Correo electronico:</label>
-        <div class="col-md-6">
-            <input id="email" type="address" class="form-control" name="email" required v-model="userForm.email">
-        </div>
-        <div v-if="this.formResponse.reject" class="col-mb3 d-flex justify-content-center text-danger">
-            <p v-for="(e, i) in this.formResponse.data.errors.email" :key="i">{{ e }}</p>
-        </div>
-    </div>
-    <div class="row mb-3">
-        <label for="password" class="col-md-4 col-form-label text-md-end">Nueva contraseña:</label>
-        <div class="col-md-6">
-            <input id="password" type="password" class="form-control" name="password" required v-model="userForm.password">
-        </div>
-        <div v-if="this.formResponse.reject" class="col-mb3 d-flex justify-content-center text-danger">
-            <p v-for="(e, i) in this.formResponse.data.errors.password" :key="i">{{ e }}</p>
-        </div>
-        <div v-else class="bg-success"></div>
-    </div>
-    <div class="row mb-3">
-        <label for="password_confirmation" class="col-md-4 col-form-label text-md-end">Confirmar contraseña:</label>
-        <div class="col-md-6">
-            <input id="password_confirmation" type="password" class="form-control" name="password_confirmation" required v-model="userForm.password_confirmation">
+        <div class="row mb-3">
+            <label for="token" class="col-md-4 col-form-label text-md-end">Token:</label>
+            <div class="col-md-6">
+                <input type="number" class="form-control" disabled :value="this.$parent.factureForm.token" name="token">
+            </div>
+            <div v-if="this.formResponse.reject" class="col-mb3 d-flex justify-content-center text-danger">
+                <p v-for="(e, i) in this.formResponse.data.errors.token" :key="i">{{ e }}</p>
+            </div>
         </div>
     </div>
 </template>
@@ -91,16 +70,24 @@ export default {
         responseReject:{
             type:Object,
             required:false
+        },
+        product:{
+            type:Object,
+            required:true
         }
     },
     data(){
         return{
-            userForm:{},
+            payMethods:[
+                'Paypal',
+                'Credito',
+                'Debito',
+            ],
             formResponse:{},
-            buttons:null,
+            buyer:null,
         }
     },
-    created(){
+    async created(){
         if(this.responseReject){
             this.formResponse={
                 reject:true,
@@ -109,25 +96,18 @@ export default {
                 }
             }
         }
-    },
-    mounted(){
-        this.init()
+        await this.init()
     },
     methods:{
-        init(){
-            this.buttons = document.querySelector('#buttons')
-            if(this.userHasLogin){
-                this.getProfile(this.userLogin)
-            }else if(this.formConfig){
-                this.resetButtons()
-            }
+        async init(){
+            this.$parent.factureForm.token = Date.now()
+            let { user } = await this.getProfile(this.userLogin)
+            this.buyer = user
+            this.$parent.factureForm.type_id = 1
+            this.$parent.factureForm.product_id = this.product.id
+            this.$parent.factureForm.product_id = this.product.id
+            this.$parent.factureForm.owner_user_id = this.buyer.id
         },
-        async sendForm(){
-            this.formResponse = await this.registerProfile(this.userForm)
-        },
-        resetButtons(){
-            this.buttons.innerHTML = null
-        }
     }
 }
 </script>

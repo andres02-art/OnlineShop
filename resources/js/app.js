@@ -21,15 +21,17 @@ import profileForm from '@/components/profile/profileForm.vue';
 import profileIndex from '@/components/profileIndex.vue';
 import profileMenu from '@/components/profile/profileMenu.vue';
 import productIndex from '@/components/productIndex.vue';
+import categoryIndex from '@/components/categoryIndex.vue';
 
 const app = createApp({
-    components: {
-        'home-index': homeIndex,
-        'profile-form': profileForm,
-        'profile-index': profileIndex,
-        'profile-menu': profileMenu,
-        'product-index': productIndex,
-    },
+	components: {
+		'home-index': homeIndex,
+		'profile-form': profileForm,
+		'profile-index': profileIndex,
+		'profile-menu': profileMenu,
+		'product-index': productIndex,
+		'category-index': categoryIndex,
+	},
 });
 
 /**

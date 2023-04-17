@@ -7,7 +7,6 @@ export const categories = new Object({
 			return await this.query('/Categories/CategoriesContent');
 		},
 		async deleteCategory(id = null, request = null) {
-			console.log('deleting');
 			return await this.query(`/Categories/Root/deleteCategory/${id}`, 'delete', request);
 		},
 		async editCategory(id = null, request = null) {
@@ -36,6 +35,12 @@ export const categories = new Object({
 			};
 			this.saveQueries();
 			return await this.query(`/Categories/Root/categoriesAdmin/${redirect}`, 'fetch', request, redirect);
+		},
+		async showAllCategory(id = null, redirect = true, request = null) {
+			return await this.query(`/Categories/viewCategory/${id}/${redirect}`, 'fetch', request, redirect);
+		},
+		async getAllContent(id = null, offset = null, limit = null) {
+			return await this.query(`/Categories/category/${id}/${offset}/${limit}`);
 		},
 	},
 });

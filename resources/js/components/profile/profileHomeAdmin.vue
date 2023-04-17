@@ -5,7 +5,7 @@
             <h1 id="profileAdminTableTitle"></h1>
             <button class="btn btn-primary" id="createItem">Crear</button>
         </div>
-        <div class="card-body">
+        <div class="card-body" id="DataTable">
 
             <table class="table m-3 p-2" id="profileAdminTable">
                 <thead id="profileAdminTableHead">
@@ -20,10 +20,8 @@
 
 <script>
 import {FETCH_RESPONSE_DATA, FETCH_RESPONSE_STATUS, FETCH_RESPONSE_HEADERS} from '@/namespaces/data'
-import { profile } from '@/namespaces/profile'
 
 export default {
-    extends:profile,
     mounted(){
         this.init
     },
@@ -53,6 +51,10 @@ export default {
                 if(FETCH_RESPONSE_STATUS){
                     this.data = FETCH_RESPONSE_DATA
                     this.head = FETCH_RESPONSE_HEADERS
+                    this.setTable()
+                    if(FETCH_RESPONSE_HEADERS.profiledatatable !== "1"){
+                        this.$emit('loaduser')
+                    }
                 }else{
                     this.dropDatatable()
                 }
@@ -78,18 +80,23 @@ export default {
             })
         },
         setTable(){
-            this.title.innerHTML= this.data.title
+            this.title.innerHTML= FETCH_RESPONSE_DATA.title
             this.form = this.head.form
         },
         async createDatatable(){
+            if($.fn.DataTable.isDataTable('#profileAdminTable')){
+                this.dropDatatable()
+            }
             if(!this.head.form){
                 this.ownerFetch = false
                 await this.showUsersAdmin(false).then(async ()=>{
                     await this.createDatatable()
                 })
             }
+            if(!this.data.columns){
+                return false
+            }
             this.datatable=true
-            this.setTable()
             $('#profileAdminTable').on( 'error.dt', this.dropDatatable()).DataTable({
                 processing: true,
                 serverSide: true,
@@ -99,15 +106,15 @@ export default {
                 },
                 columns: this.data.columns
             })
-            $('#example')
-            .DataTable();
         },
         dropDatatable(){
+            if(!$('#profileAdminTable')[0]){
+                return false
+            }
             if($.fn.DataTable.isDataTable('#profileAdminTable')){
                 $('#profileAdminTable').dataTable().fnClearTable()
                 $('#profileAdminTable').dataTable().fnDestroy()
                 this.datatable=false
-                this.table.innerHTML = null
             }else{
                 document.querySelector('#profileAdminTable').innerHTML=null
             }

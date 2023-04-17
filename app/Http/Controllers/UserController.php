@@ -40,8 +40,7 @@ class UserController extends Controller
             ->addColumn('actions', function($row){
                 $fedit = Storage::get('/buttons/editButton.html');
                 $fdelete = Storage::get('/buttons/deleteButton.html');
-                $fsee = Storage::get('/buttons/seeButton.html');
-                return "<div rowitem='{$row->id}'>".$fedit.$fdelete.$fsee.'</div>';
+                return "<div rowitem='{$row->id}'>".$fedit.$fdelete.'</div>';
             })
             ->rawColumns(['actions'])
             ->make();
@@ -120,6 +119,15 @@ class UserController extends Controller
                 'columns'=>$columnsUser,
                 'title'=>'Usuarios'
             ], 200, ['form'=>'users', 'profiledatatable'=>true]);
+        }
+    }
+
+    public function showUsersShops(User $User, $redirect)
+    {
+        if ($redirect==='true') {
+            return response()->json([], 301, ['location'=>'/Profile/Owner/user/'.$User->id]);
+        }else{
+            return response()->json(['Usersshops'=>$User->load('Shops.Factures.Car', 'Shops.Factures.Product')], 200, ['form'=>'shops','profiledatatable'=>false]);
         }
     }
     /**

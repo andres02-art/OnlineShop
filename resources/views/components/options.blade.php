@@ -8,6 +8,7 @@
             class="dropdown-item"
             href="{{ route('logout') }}"
             onclick="event.preventDefault();
+            window.localStorage.clear();
             document.getElementById('logout-form').submit();">
             {{ __('Logout') }}
         </a>

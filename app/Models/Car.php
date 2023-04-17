@@ -12,7 +12,11 @@ class Car extends Model
 
     protected $fillable=[
         'sub_total',
-        'total_purchase'
+        'total_purchase',
+        'owner_user_id',
     ];
 
+    public function Factures(){
+        return $this->hasMany(Facture::class);
+    }
 }

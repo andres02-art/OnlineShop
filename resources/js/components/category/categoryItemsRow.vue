@@ -3,11 +3,11 @@
         <div v-if="this.hasItems" class="mb-5">
             <div class="d-flex justify-content-between ">
                 <h2>Categoria {{ this.itemRow.name }}</h2>
-                <button @click="seeCategory()" class="btn btn-secondary">Ver todo</button>
+                <button @click="this.showAllCategory(this.itemRow.id)" class="btn btn-secondary">Ver todo</button>
             </div>
             <div :id="'RowItems'+this.itemRow.id" class="product-row container-ls bg-light d-flex align-items-stretch flex-nowrap">
                 <div class="card product-card m-3" v-for="(e, i) in this.itemRow.products" :key="i">
-                    <img :src=this.productsImg+e.img class="card-img-top" alt="...">
+                    <img :src="this.productsImg+(e.img??'defaultImg.jpg')" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h2 class="card-title">{{ e.name }}</h2>
                         <h5 class="card-title">{{ e.precio }} $</h5>
@@ -31,7 +31,9 @@
 </template>
 
 <script>
+import { categories } from '@/namespaces/categories'
 export default {
+    extends:categories,
     props:{
         itemRow:{
             type:Object,
@@ -50,7 +52,6 @@ export default {
         }
     },
     created(){
-        console.log(this.itemRow)
         if(this.itemRow.products.at()){
             this.hasItems=true
         }

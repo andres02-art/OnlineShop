@@ -106,6 +106,17 @@ export default {
                 }
             }
         }
+        if(this.responseReject){
+            this.formResponse={
+                reject:true,
+                data:{
+                    errors:this.responseReject,
+                }
+            }
+        }
+        this.autoload = setInterval(()=>{
+            this.formResponse=this.$parent.formResponse
+        })
     },
     mounted(){
         this.init()

@@ -13,8 +13,8 @@
                     <h5>{{ this.product.precio }} $</h5>
                 </div>
                 <div class="d-flex gap-3">
-                    <button @click="buy" class="btn btn-primary bg-gradient">Comprar</button>
-                    <button @click="addBuy" class="btn btn-secondary bg-gradient">Agregar al carrito</button>
+                    <button @click="this.$parent.openBuyForm()" activity="openBuyForm" class="btn btn-primary bg-gradient">Comprar</button>
+                    <button @click="addBuy" activity="addToCar" class="btn btn-secondary bg-gradient">Agregar al carrito</button>
                 </div>
             </div>
         </div>
@@ -59,6 +59,11 @@ export default {
             this.response = await this.buyItem(this.buyRequest)
         },
         addBuy(ev){
+            if(!this.$parent.authUser){
+                window.localStorage.removeItem('Car')
+                this.$parent.alertError(401)
+                return false
+            }
             if(!this.sessionCar.at()){
                 this.sessionCar.push({ id:this.product.id, item: this.product, times:1 })
                 window.localStorage.setItem('Car', JSON.stringify(this.sessionCar))

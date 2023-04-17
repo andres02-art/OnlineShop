@@ -11,7 +11,7 @@ export const profile = new Object({
 	},
 	methods: {
 		async getProfile(id = Number) {
-			return await this.query(`/Profile/Owner/getUser/${id}`);
+			return await this.query(`/Profile/Owner/account/${id}`);
 		},
 		async deleteProfile(id = null, request = null) {
 			console.log('deleting');

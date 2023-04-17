@@ -17,8 +17,26 @@ class Facture extends Model
             'method',
             'token',
             'type_id',
-            'user_id',
             'car_id',
+            'owner_user_id',
             'product_id',
+            'amount',
         ];
+
+
+    public function Product(){
+        return $this->belongsTo(Product::class);
+    }
+
+    public function OwnerUser(){
+        return $this->hasOne(User::class);
+    }
+
+    public function Shops(){
+        return $this->hasMany(Shop::class);
+    }
+
+    public function Car(){
+        return $this->belongsTo(Car::class);
+    }
 }

@@ -23,7 +23,7 @@ export const data = new Object({
 			window.localStorage.removeItem('fetchBuffers');
 		},
 		async resolve() {
-			return this.uploadResponses();
+			return this.fetchResponse.data;
 		},
 		async reject(reject = null) {
 			await this.alertError(reject.status);
@@ -94,6 +94,19 @@ export const data = new Object({
 				return await this.reject(error.response);
 			}
 		},
+		async alertInfo(message = null) {
+			window.swal.fire({
+				title: 'Notificación',
+				position: 'bottom-start',
+				timer: 7000,
+				toast: true,
+				timerProgressBar: true,
+				showConfirmButton: false,
+				icon: 'info',
+				confirmButtonText: 'aceptar',
+				text: message,
+			});
+		},
 		async alertSucces() {
 			window.swal.fire({
 				title: 'Success',
@@ -108,6 +121,10 @@ export const data = new Object({
 			});
 		},
 		async alertError(error = null) {
+			if (error == 401) {
+				window.location.assign(window.location.origin + '/login/login');
+			}
+
 			window.swal.fire({
 				title: `Error ${error}`,
 				position: 'bottom-start',
@@ -147,15 +164,12 @@ export const data = new Object({
 		},
 		async axiosGet(url = null) {
 			this.fetchResponse = await window.axios.get(url);
-			this.uploadResponses();
 		},
 		async axiosPost(url = null, request = null) {
 			this.fetchResponse = await window.axios.post(url, request);
-			this.uploadResponses();
 		},
 		async axiosDelete(url = null, request = null) {
 			this.fetchResponse = await window.axios.delete(url, request);
-			this.uploadResponses();
 		},
 	},
 });

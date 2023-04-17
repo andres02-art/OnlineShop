@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Facture;
 use App\Http\Requests\StoreFactureRequest;
-    use App\Http\Requests\UpdateFactureRequest;
+use App\Http\Requests\UpdateFactureRequest;
+use App\Models\Product;
+use App\Models\Shop;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Util\Exception;
 use Yajra\DataTables\Facades\DataTables;
 
 class FactureController extends Controller
@@ -24,13 +29,6 @@ class FactureController extends Controller
     {
         $factures = Facture::all();
         return DataTables::of($factures)
-            ->addColumn('actions', function($row){
-                $fedit = Storage::get('/buttons/editButton.html');
-                $fdelete = Storage::get('/buttons/deleteButton.html');
-                $fsee = Storage::get('/buttons/seeButton.html');
-                return "<div rowitem='{$row->id}'>".$fedit.$fdelete.$fsee.'</div>';
-            })
-            ->rawColumns(['actions'])
             ->make();
     }
 
@@ -52,9 +50,52 @@ class FactureController extends Controller
      */
     public function store(StoreFactureRequest $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $Facture = new Facture($request->all());
+            $Facture->save();
+            $Product = Product::find($Facture->product_id);
+            $Product->stock -= $Facture->amount;
+            $Product->update();
+            $ShopRegister = new Shop();
+            $ShopRegister->date_shop = date_create('now');
+            $ShopRegister->shop_confirm = true;
+            $ShopRegister->factures_id = $Facture->id;
+            $ShopRegister->owner_user_id = $request->owner_user_id;
+            $ShopRegister->customer_user_id = 1;
+            $ShopRegister->save();
+            DB::commit();
+            return response()->json(['succes'=>$Facture], 201);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json(['error'=>$th->getMessage()], $th->getCode());
+        }
+
     }
 
+    public function storeCar(StoreFactureRequest $request)
+    {
+        try {
+            DB::beginTransaction();
+            $Facture = new Facture($request->all());
+            $Facture->save();
+            $Product = Product::find($Facture->product_id);
+            $Product->stock -= $Facture->amount;
+            $Product->update();
+            $ShopRegister = new Shop();
+            $ShopRegister->date_shop = date_create('now');
+            $ShopRegister->shop_confirm = true;
+            $ShopRegister->factures_id = $Facture->id;
+            $ShopRegister->owner_user_id = $request->owner_user_id;
+            $ShopRegister->customer_user_id = 1;
+            $ShopRegister->save();
+            DB::commit();
+            return $Facture;
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return $th;
+        }
+    }
     /**
      * Display the specified resource.
      *
@@ -76,7 +117,7 @@ class FactureController extends Controller
             ['data'=>'owner_user_id', 'title'=>'Usuario'],
             ['data'=>'sub_total', 'title'=>'subTotal'],
             ['data'=>'total_purchase', 'title'=>'Total'],
-            ['data'=>'actions', 'title'=>'Actions']
+            ['data'=>'amount', 'title'=>'Cantidad'],
         ];
         if ($redirect==='true') {
             return response()->json([], 301, ['location'=>'/Profile/Owner/Root/root']);

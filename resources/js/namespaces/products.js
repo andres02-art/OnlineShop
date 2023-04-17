@@ -13,7 +13,6 @@ export const products = new Object({
 			return await this.query(`/Search/Root/productsAdmin/${redirect}`, 'fetch', request, redirect);
 		},
 		async deleteProduct(id = null, request = null) {
-			console.log('deleting');
 			return await this.query(`/Search/Root/deleteProduct/${id}`, 'delete', request);
 		},
 		async editProduct(id = null, request = null) {
@@ -27,6 +26,9 @@ export const products = new Object({
 		},
 		async getProduct(id = null) {
 			return await this.query(`/Product/getProduct/${id}`);
+		},
+		async getProducts() {
+			return await this.query('/Product/getProducts');
 		},
 	},
 });

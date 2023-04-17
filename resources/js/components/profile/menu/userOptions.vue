@@ -3,7 +3,7 @@
         <div @click="this.redirect('user')" class="row"><p class="px-5 link-secondary" >Cuenta</p></div>
         <div @click="this.redirect('shops')" class="row"><p class="px-5 link-secondary" >Compras</p></div>
         <div @click="this.redirect('shops')" class="row"><p class="px-5 link-secondary" >Carrito</p></div>
-        <div @click="this.redirect('categories')" class="row"><p class="px-5 link-secondary" >Favoritos</p></div>
+        <div @click="this.redirect('categories')" class="row"><p class="px-5 link-secondary" >Categorias</p></div>
     </nav>
 </template>
 
@@ -16,10 +16,10 @@ export default {
                     await this.$parent.showAccount(this.$parent.authUser, this.$parent.redirect)
                 break;
                 case 'shops':
-                    await this.$parent.showShopsUser(this.$parent.authUser)
+                    await this.$parent.showShopsUser(this.$parent.authUser, this.$parent.redirect)
                 break;
                 case 'categories':
-                    await this.$parent.showCategoriesUser(1, true)
+                    await this.$parent.showAllCategory(1)
                 break;
             }
             this.$parent.autoLoadInterval=true

@@ -1,11 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    @role('admin')
-    <profile-index user-role="admin">
-
-@endrole
-@role('user')
-<profile-index user-role="user">
-    @endrole
+    <category-index :auth-user={{ Auth::user()->id??'false' }} :category-default={{ $Category->id }}>
 @endsection

@@ -22,7 +22,9 @@ class PromotionController extends Controller
 
     public function indexProductsByPromotion(Promotion $Promotion)
     {
-        return response()->json(['productsByPromotion' => Promotion::with('Products')->find($Promotion)], 200);
+        return response()->json(['productsByPromotion' => Promotion::with(['Products'=>function($products){
+            $products->skip(0)->take(5);
+        }])->find($Promotion)], 200);
     }
 
     public function indexDatatable()
@@ -32,8 +34,7 @@ class PromotionController extends Controller
             ->addColumn('actions', function($row){
                 $fedit = Storage::get('/buttons/editButton.html');
                 $fdelete = Storage::get('/buttons/deleteButton.html');
-                $fsee = Storage::get('/buttons/seeButton.html');
-                return "<div rowitem='{$row->id}'>".$fedit.$fdelete.$fsee.'</div>';
+                return "<div rowitem='{$row->id}'>".$fedit.$fdelete.'</div>';
             })
             ->rawColumns(['actions'])
             ->make();

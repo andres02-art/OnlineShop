@@ -55,9 +55,17 @@ class User extends Authenticatable
     ];
 
     protected $append = [
-        'full_name'
+        'full_name',
+        'role'
     ];
 
+    public function Facture(){
+        return $this->belongsTo(Facture::class);
+    }
+
+    public function Shops(){
+        return $this->hasMany(Shop::class, 'owner_user_id');
+    }
 
     public function setPasswordAttribute($value)
     {
@@ -67,5 +75,10 @@ class User extends Authenticatable
     public function getFullName()
     {
         return "{ $this->attributes['name'] } { $this->attributes['last_name'] }";
+    }
+
+    public function getRole()
+    {
+        return "{ $this->getRole() }";
     }
 }

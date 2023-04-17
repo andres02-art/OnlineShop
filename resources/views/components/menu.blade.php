@@ -14,12 +14,6 @@
 
         </ul>
 
-        <form class="d-flex flex-row gap-2" id="search-form" action="{{ route('search') }}" method="get">
-            @csrf
-            <input class="form-control" type="text" placeholder="search" name="search">
-            <button class="btn" type="submit">Buscar</button>
-        </form>
-
         <!-- Right Side Of Navbar -->
         <ul class="navbar-nav ms-auto">
             <!-- Authentication Links -->

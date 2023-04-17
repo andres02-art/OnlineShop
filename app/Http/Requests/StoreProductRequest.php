@@ -26,7 +26,7 @@ class StoreProductRequest extends FormRequest
         return [
             'precio'=>'numeric',
             'catalogo'=>'required',
-            'img'=>'required',
+            'img'=>'required|image|size:2048',
             'name'=>'string|required',
             'prom'=>'string',
             'mark'=>'required|string',
@@ -42,6 +42,8 @@ class StoreProductRequest extends FormRequest
             'precio.numeric'=>'El precio debe ser un numero',
             'catalogo.required'=>'El catalogo es obligatorio',
             'img.required'=>'La imagen es obligatoria',
+            'img.size'=>'La imagen es demasiado grande',
+            'img.image'=>'La imagen no es valida',
             'name.string'=>'El nombre debe ser letras',
             'name.required'=>'El nombre es obligatorio',
             'mark.string'=>'La marca del producto es obligatoria',

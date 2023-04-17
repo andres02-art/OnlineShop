@@ -8,10 +8,12 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ConfirmPasswordController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\CarController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FactureController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
+use App\Models\Facture;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
 
@@ -32,6 +34,7 @@ Route::group(['prefix'=>'Profile', 'controller'=>UserController::class], functio
     Route::group(['prefix'=>'Owner','middleware'=>['auth']], function(){
         Route::get('/user/{User}', 'show')->name('profile');
         Route::get('/account/{User}', 'indexUser');
+        Route::get('/usersShops/{User}/{redirect}', 'showUsersShops');
         Route::get('/getProfile/{User}/{redirect}', 'showUser');
         Route::get('/getRole/{User}', 'indexRole');
         Route::group(['prefix'=>'Root','middleware'=>['auth', 'role:admin']], function(){
@@ -51,8 +54,10 @@ Route::group(['prefix'=>'Profile', 'controller'=>UserController::class], functio
 Route::group(['prefix'=>'Shops', 'controller'=>FactureController::class], function(){
     Route::get('/shop/{User}', 'show');
     Route::group(['prefix'=>'Confirm','middleware'=>['auth']], function(){
-        Route::get('/buy/{User}', 'indexUser');
-        Route::get('/xx/{User}', 'indexRole');
+        Route::post('/buyItem', 'store');
+        Route::group(['prefix'=>'Car', 'controller'=>CarController::class], function(){
+            Route::post('/buyCar', 'store');
+        });
         Route::group(['prefix'=>'Root','middleware'=>['auth', 'role:admin']], function(){
             Route::get('/shopsAdmin/{redirect}', 'showFactures');
             Route::get('/shopsAdminDatatable', 'indexDatatable');
@@ -82,8 +87,9 @@ Route::group(['prefix'=>'Promotions', 'controller'=>PromotionController::class],
 Route::group(['prefix'=>'Categories', 'controller'=>CategoryController::class], function(){
     Route::get('/allCategories', 'index');
     Route::get('/CategoriesContent', 'indexProductsByCategories');
+    Route::get('/category/{Category}/{offset?}/{limit?}', 'indexCategoryPorducts');
     Route::get('/CategoryContent', 'indexProductsByCategory');
-    Route::get('/viewCategory', 'show');
+    Route::get('/viewCategory/{Category}/{redirect?}', 'show');
     Route::group(['prefix'=>'User', 'middleware'=>['auth']], function(){
         Route::get('/view/{Category}/{redirect}', 'showCategory');
     });
@@ -100,11 +106,11 @@ Route::group(['prefix'=>'Product', 'controller'=>ProductController::class], func
     Route::get('/product/{Product}', 'show');
     Route::get('/productByCategory', 'indexProductsByCategory');
     Route::get('/getProduct/{Product}', 'indexProduct');
+    Route::get('/getProducts', 'index');
     Route::get('/showProduct/{Product}', 'showProduct');
 });
 
 Route::group(['prefix'=>'Search', 'controller'=>ProductController::class], function(){
-    Route::get('/products', 'index');
     Route::get('/getProduct', 'indexProduct')->name('search');
     Route::group(['prefix'=>'Root', 'middleware'=>['auth', 'role:admin']], function(){
         Route::get('/productsAdmin/{redirect}', 'showProducts');

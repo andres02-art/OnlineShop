@@ -126,17 +126,21 @@ export default {
             roles:false,
             deleteForm:false,
             formContent:{},
+            reset:null
         }
     },
     created(){
         if(this.responseReject){
             this.formResponse={
                 reject:true,
-                data:{
-                    errors:this.responseReject,
-                }
+            data:{
+                errors:this.responseReject,
+            }
             }
         }
+        this.autoload = setInterval(()=>{
+            this.formResponse=this.$parent.formResponse
+        })
     },
     async mounted(){
         await this.init()

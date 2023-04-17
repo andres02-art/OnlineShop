@@ -2,8 +2,15 @@
     <div>
         <div class="container-ls p-2 d-flex overflow-hidden">
             <div class="p-2 flex-xl-fill" v-if="this.dataResponse">
-                <profile-home-user v-if="this.user"/>
-                <profile-home-admin v-else/>
+                <profile-home-user @loadadmin="this.loadAdmin" v-if="this.user || this.loadAdminUser"/>
+                <div v-else>
+                    <div v-if="this.reload">
+                        <profile-home-admin @loaduser="this.loadUser"/>
+                    </div>
+                    <div v-else>
+                        load ...
+                    </div>
+                </div>
             </div>
             <div class="p-2" v-else>
                 load ...
@@ -18,12 +25,12 @@
                 <div class="modal-dialog modal-dialog-centered ">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="profileModalLabel">Modal title</h1>
+                            <h1 class="modal-title fs-5" id="profileModalLabel">{{ this.form.type }}</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <form @submit.prevent="sendForm" enctype="multipart/form-data">
-                            <div v-if="this.modal" class="modal-body">
-                                <profile-form v-if="this.form.type=='users' " :form-config="this.form"></profile-form>
+                            <div v-if="this.loadModal" class="modal-body">
+                                <profile-form v-if="this.form.type=='users'" :response-reject="this.responseReject" :form-config="this.form"></profile-form>
                                 <category-form v-if="this.form.type=='categories'" :form-config="this.form"></category-form>
                                 <product-form v-if="this.form.type=='products'" :form-config="this.form"></product-form>
                                 <facture-form v-if="this.form.type=='factures'" :form-config="this.form"></facture-form>
@@ -34,7 +41,6 @@
                     </div>
                 </div>
             </div>
-            <api-errors class="visually-hidden" v-if="this.formResponse.reject" :reject-response="this.formResponse.data"></api-errors>
         </section>
     </div>
 </template>
@@ -77,11 +83,14 @@ export default {
     },
     data(){
         return{
+            loadAdminUser:false,
             dataResponse:null,
             headResponse:null,
             modal:null,
+            loadModal:false,
             containerModal:null,
             buttons:null,
+            reload:true,
             form:{
                 type:'',
                 action:'',
@@ -108,14 +117,7 @@ export default {
             this.buttons = document.querySelector('#buttons')
         },
         openFormModal(ev, form){
-            if(this.formResponse.reject){
-                this.htmlErrors = $('#apiErrors')[0]
-                if(this.htmlErrors){
-                    window.swal.fire({
-                        html: this.htmlErrors.innerHTML
-                    })
-                }
-            }
+            this.loadModal = true
             this.modal = new window.bootstrap.Modal(this.containerModal, { keyboard:false })
             this.form.type = form
             this.form.action = ev.target.id
@@ -131,7 +133,8 @@ export default {
             this.modal.show()
         },
         destroyFromModal(){
-            this.modal=null
+            this.formContent = {}
+            this.loadModal = false
         },
         getButtons(){
             if(!this.form){
@@ -146,15 +149,13 @@ export default {
                 case 'createItem':
                     this.createButton(this.form.action, 'Crear', 'primary');break;
             }
-            this.createButton('closeItem', 'Cerrar', 'secondary')
         },
         createButton(action, name, color){
             let configButton={
                 class:`btn btn-${color} bg-gradient`,
-            'data-bs-dismiss':'modal',
-            value:name,
-            id:`${action}Button`,
-            type:'submit'
+                value:name,
+                id:`${action}Button`,
+                type:'submit'
             }
             let newButton = document.createElement('button')
             newButton.innerHTML = name
@@ -183,6 +184,22 @@ export default {
                 'title': ev.target.files.name
             })
         },
+        destroyddt(){
+            $('#profileAdminTable').dataTable().fnClearTable()
+            $('#profileAdminTable').dataTable().fnDestroy()
+        },
+        ddt(){
+            if($.fn.DataTable.isDataTable('#profileAdminTable')){
+                $('#profileAdminTable').DataTable().ajax.reload()
+            }
+        },
+        loadUser(){
+            this.loadAdminUser = true
+        },
+        loadAdmin(){
+            this.loadAdminUser = false
+            window.location.reload()
+        },
         async sendForm(){
             this.createFormData()
             switch(this.form.type){
@@ -201,6 +218,10 @@ export default {
                 case 'factures':
                     await this.sendFactureForm()
                 break;
+            }
+            this.ddt()
+            if(!this.formResponse.reject){
+                this.modal.hide()
             }
         },
         async sendCategoryForm(){

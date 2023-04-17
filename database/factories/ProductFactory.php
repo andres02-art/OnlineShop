@@ -35,6 +35,7 @@ class ProductFactory extends Factory
                 null
             ]),
             'name'=>fake()->name(),
+            'stock'=>fake()->randomNumber(),
             'prom'=>fake()->boolean(),
             'mark'=>fake()->name(),
             'promotion_id' => fake()->randomElement([1, 2, 3, 4, 5])
